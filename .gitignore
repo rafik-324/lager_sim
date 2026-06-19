@@ -1,0 +1,18 @@
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Java / build (falls du Java nutzt)
+target/
+out/
+
+# Docker / env
+.env
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

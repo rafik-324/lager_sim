@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Lagersimulation — Projektstruktur</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  :root{
+    --bg:#11151c;
+    --panel:#1a202c;
+    --panel-2:#202737;
+    --border:#2b3344;
+    --text:#e7eaf0;
+    --muted:#8b93a6;
+    --amber:#ff8f3d;
+    --teal:#4fd1c5;
+    --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+  }
+
+  .layout{
+    display:flex;
+    max-width:1280px;
+    margin:0 auto;
+  }
+
+  nav.toc{
+    width:240px;
+    flex-shrink:0;
+    position:sticky;
+    top:0;
+    height:100vh;
+    overflow-y:auto;
+    padding:32px 20px;
+    border-right:1px solid var(--border);
+  }
+  nav.toc .pillar-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    text-transform:uppercase;
+    margin:18px 0 6px;
+  }
+  nav.toc a{
+    display:block;
+    color:var(--text);
+    text-decoration:none;
+    font-size:13.5px;
+    padding:6px 10px;
+    border-radius:6px;
+    border-left:2px solid transparent;
+    opacity:0.8;
+  }
+  nav.toc a:hover{
+    background:var(--panel-2);
+    border-left-color:var(--amber);
+    opacity:1;
+  }
+
+  main{
+    flex:1;
+    padding:48px 56px 120px;
+    min-width:0;
+  }
+
+  header.hero{
+    margin-bottom:56px;
+    border-bottom:1px solid var(--border);
+    padding-bottom:32px;
+  }
+  header.hero .eyebrow{
+    font-family:var(--mono);
+    color:var(--amber);
+    font-size:12.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    margin-bottom:14px;
+  }
+  header.hero h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:38px;
+    margin:0 0 12px;
+    line-height:1.15;
+  }
+  header.hero p{
+    color:var(--muted);
+    font-size:16px;
+    max-width:640px;
+    margin:0;
+  }
+
+  .pillars{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:14px;
+    margin-top:28px;
+  }
+  .pillar-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px;
+    position:relative;
+  }
+  .pillar-card::before{
+    content:attr(data-num);
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--muted);
+    position:absolute;
+    top:14px;
+    right:16px;
+  }
+  .pillar-card h3{
+    margin:0 0 4px;
+    font-size:15px;
+    font-family:'Space Grotesk', sans-serif;
+  }
+  .pillar-card p{
+    margin:0;
+    font-size:13px;
+    color:var(--muted);
+  }
+  .pillar-card.db{border-top:3px solid var(--teal);}
+  .pillar-card.java{border-top:3px solid var(--amber);}
+  .pillar-card.dash{border-top:3px solid #c084fc;}
+
+  section{
+    margin-bottom:64px;
+    scroll-margin-top:24px;
+  }
+  section h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:23px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+  }
+  section h2 .idx{
+    font-family:var(--mono);
+    color:var(--amber);
+    font-size:14px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    padding:2px 8px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:24px 26px;
+  }
+
+  pre{
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:18px 20px;
+    overflow-x:auto;
+    font-family:var(--mono);
+    font-size:13px;
+    color:#d7dbe4;
+  }
+  code{font-family:var(--mono);}
+
+  .mermaid-wrap{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:24px;
+    overflow-x:auto;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+  }
+  th, td{
+    text-align:left;
+    padding:10px 14px;
+    border-bottom:1px solid var(--border);
+  }
+  th{
+    color:var(--muted);
+    font-family:var(--mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+  td code{color:var(--teal);}
+
+  ol.steps{
+    padding-left:0;
+    list-style:none;
+    counter-reset:step;
+  }
+  ol.steps li{
+    counter-increment:step;
+    position:relative;
+    padding-left:42px;
+    margin-bottom:10px;
+    font-size:14.5px;
+  }
+  ol.steps li::before{
+    content:counter(step);
+    position:absolute;
+    left:0;
+    top:-1px;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--amber);
+    font-family:var(--mono);
+    font-size:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .phase-label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--teal);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    margin-bottom:8px;
+  }
+
+  @media (max-width: 900px){
+    nav.toc{display:none;}
+    main{padding:32px 20px 80px;}
+    .pillars{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="layout">
+  <nav class="toc">
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;">Lagersim</div>
+    <div class="pillar-tag">Übersicht</div>
+    <a href="#ordnerstruktur">Ordnerstruktur</a>
+    <div class="pillar-tag">Säule 1 · DB</div>
+    <a href="#er-diagramm">ER-Diagramm</a>
+    <div class="pillar-tag">Säule 2 · Java</div>
+    <a href="#klassendiagramm">Klassendiagramm</a>
+    <a href="#sequenzdiagramm">Sequenzdiagramm</a>
+    <a href="#domain">Domain-Klassen</a>
+    <div class="pillar-tag">Säule 3 · Grafana</div>
+    <a href="#docker">Docker-Compose</a>
+    <a href="#provisioning">Grafana-Provisioning</a>
+    <div class="pillar-tag">Sonstiges</div>
+    <a href="#pakete">Paket-Übersicht</a>
+    <a href="#reihenfolge">Aufbau-Reihenfolge</a>
+  </nav>
+
+  <main>
+    <header class="hero">
+      <div class="eyebrow">Projektstruktur · Technische Referenz</div>
+      <h1>Echtzeit-Lagersimulation</h1>
+      <p>Vollständige Architektur für Datenbank, Simulations-Engine und Dashboard — als Nachschlagewerk für den Aufbau aller drei Säulen.</p>
+
+      <div class="pillars">
+        <div class="pillar-card db" data-num="01">
+          <h3>Datenbank</h3>
+          <p>PostgreSQL · Schema & Event-Log</p>
+        </div>
+        <div class="pillar-card java" data-num="02">
+          <h3>Simulations-Engine</h3>
+          <p>Java · Event-Queue & Services</p>
+        </div>
+        <div class="pillar-card dash" data-num="03">
+          <h3>Dashboard</h3>
+          <p>Grafana · Live-Kennzahlen</p>
+        </div>
+      </div>
+    </header>
+
+    <section id="ordnerstruktur">
+      <h2><span class="idx">01</span>Gesamte Ordnerstruktur (Monorepo)</h2>
+      <div class="card">
+        <pre>lager-simulation/
+├── README.md
+├── docker-compose.yml                 # startet Postgres + Grafana zusammen
+│
+├── database/
+│   ├── init/
+│   │   ├── 01_schema.sql              # CREATE TABLE Statements
+│   │   ├── 02_seed_data.sql           # Artikel-Stammdaten, Lagerplätze
+│   │   └── 03_indexes.sql             # Indizes für Performance
+│   └── migrations/                    # spätere Schema-Änderungen
+│
+├── simulation-engine/                 # Java-Projekt
+│   ├── pom.xml                        # Maven-Konfiguration
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/de/lagersim/
+│   │   │   │   ├── Main.java
+│   │   │   │   ├── config/
+│   │   │   │   │   └── DatabaseConfig.java
+│   │   │   │   ├── core/
+│   │   │   │   │   ├── SimClock.java
+│   │   │   │   │   ├── SimEvent.java
+│   │   │   │   │   ├── EventType.java
+│   │   │   │   │   ├── EventQueue.java
+│   │   │   │   │   └── WarehouseSimulation.java
+│   │   │   │   ├── generator/
+│   │   │   │   │   ├── OrderGenerator.java
+│   │   │   │   │   ├── InboundGenerator.java
+│   │   │   │   │   └── DemandDistribution.java
+│   │   │   │   ├── domain/
+│   │   │   │   │   ├── Artikel.java
+│   │   │   │   │   ├── Lagerplatz.java
+│   │   │   │   │   ├── Bestand.java
+│   │   │   │   │   ├── Bewegung.java
+│   │   │   │   │   ├── Auftrag.java
+│   │   │   │   │   └── AuftragPosition.java
+│   │   │   │   ├── repository/
+│   │   │   │   │   ├── ArtikelRepository.java
+│   │   │   │   │   ├── BestandRepository.java
+│   │   │   │   │   ├── BewegungRepository.java
+│   │   │   │   │   ├── AuftragRepository.java
+│   │   │   │   │   └── EventLogRepository.java
+│   │   │   │   └── service/
+│   │   │   │       ├── BestandsService.java
+│   │   │   │       ├── KommissionierungsService.java
+│   │   │   │       └── EventLogService.java
+│   │   │   └── resources/
+│   │   │       └── application.properties
+│   │   └── test/
+│   │       └── java/de/lagersim/
+│   │           └── core/WarehouseSimulationTest.java
+│
+└── dashboard/
+    ├── grafana/
+    │   ├── provisioning/
+    │   │   ├── datasources/
+    │   │   │   └── postgres.yml
+    │   │   └── dashboards/
+    │   │       └── dashboards.yml
+    │   └── dashboards-json/
+    │       ├── lager_uebersicht.json
+    │       ├── bestand_live.json
+    │       └── auslastung.json</pre>
+      </div>
+    </section>
+
+    <section id="er-diagramm">
+      <h2><span class="idx">02</span>Datenbank-Schema (ER-Diagramm)</h2>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+erDiagram
+    ARTIKEL {
+        int artikel_id PK
+        string bezeichnung
+        string kategorie
+        int min_bestand
+        int max_bestand
+        decimal ek_preis
+    }
+    LAGERPLATZ {
+        int platz_id PK
+        string zone
+        int kapazitaet
+        string status
+    }
+    BESTAND {
+        int bestand_id PK
+        int artikel_id FK
+        int platz_id FK
+        int menge
+        timestamp letzte_aenderung
+    }
+    BEWEGUNG {
+        int bewegung_id PK
+        int artikel_id FK
+        string typ
+        int menge
+        int quelle_platz_id FK
+        int ziel_platz_id FK
+        timestamp zeitstempel
+    }
+    AUFTRAG {
+        int auftrag_id PK
+        string typ
+        string status
+        timestamp erstellt_am
+        timestamp abgeschlossen_am
+    }
+    AUFTRAG_POSITION {
+        int position_id PK
+        int auftrag_id FK
+        int artikel_id FK
+        int menge
+        string status
+    }
+    EVENT_LOG {
+        int event_id PK
+        string tabelle
+        string aktion
+        timestamp zeitstempel
+        string details
+    }
+
+    ARTIKEL ||--o{ BESTAND : "liegt in"
+    LAGERPLATZ ||--o{ BESTAND : "enthaelt"
+    ARTIKEL ||--o{ BEWEGUNG : "betrifft"
+    LAGERPLATZ ||--o{ BEWEGUNG : "quelle/ziel"
+    AUFTRAG ||--o{ AUFTRAG_POSITION : "enthaelt"
+    ARTIKEL ||--o{ AUFTRAG_POSITION : "bestellt"
+        </pre>
+      </div>
+    </section>
+
+    <section id="klassendiagramm">
+      <h2><span class="idx">03</span>Java-Klassendiagramm (Simulationskern)</h2>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+classDiagram
+    class WarehouseSimulation {
+        -EventQueue eventQueue
+        -SimClock clock
+        -List~Generator~ generators
+        +run()
+        -process(SimEvent evt)
+        -generateRandomEvent()
+    }
+    class EventQueue {
+        -PriorityQueue~SimEvent~ queue
+        +add(SimEvent evt)
+        +poll() SimEvent
+        +isEmpty() boolean
+    }
+    class SimEvent {
+        +EventType type
+        +LocalDateTime scheduledTime
+        +Map data
+    }
+    class EventType {
+        <<enumeration>>
+        WARENEINGANG
+        AUFTRAG_EINGEGANGEN
+        KOMMISSIONIERUNG_FERTIG
+        WARENAUSGANG
+        INVENTURDIFFERENZ
+    }
+    class SimClock {
+        -LocalDateTime currentTime
+        -double speedFactor
+        +now() LocalDateTime
+        +advanceTo(LocalDateTime t)
+    }
+    class OrderGenerator {
+        -DemandDistribution distribution
+        +generateNextOrder() SimEvent
+    }
+    class InboundGenerator {
+        +generateInbound() SimEvent
+    }
+    class DemandDistribution {
+        +samplePoisson(double lambda) int
+    }
+    class BestandsService {
+        -BestandRepository repo
+        +erhoehen(int artikelId, int platzId, int menge)
+        +verringern(int artikelId, int platzId, int menge)
+        +pruefeMindestbestand(int artikelId) boolean
+    }
+    class KommissionierungsService {
+        -AuftragRepository auftragRepo
+        -BestandsService bestandsService
+        +starteKommissionierung(int auftragId)
+        +schliesseAb(int auftragId)
+    }
+    class EventLogService {
+        -EventLogRepository repo
+        +log(SimEvent evt)
+    }
+    class ArtikelRepository
+    class BestandRepository
+    class BewegungRepository
+    class AuftragRepository
+    class EventLogRepository
+
+    WarehouseSimulation --> EventQueue
+    WarehouseSimulation --> SimClock
+    WarehouseSimulation --> OrderGenerator
+    WarehouseSimulation --> InboundGenerator
+    EventQueue --> SimEvent
+    SimEvent --> EventType
+    OrderGenerator --> DemandDistribution
+    WarehouseSimulation --> BestandsService
+    WarehouseSimulation --> KommissionierungsService
+    WarehouseSimulation --> EventLogService
+    BestandsService --> BestandRepository
+    KommissionierungsService --> AuftragRepository
+    KommissionierungsService --> BestandsService
+    EventLogService --> EventLogRepository
+        </pre>
+      </div>
+    </section>
+
+    <section id="sequenzdiagramm">
+      <h2><span class="idx">04</span>Ablauf eines Auftrags (Sequenzdiagramm)</h2>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+sequenceDiagram
+    participant Sim as WarehouseSimulation
+    participant OG as OrderGenerator
+    participant KS as KommissionierungsService
+    participant BS as BestandsService
+    participant DB as PostgreSQL
+    participant EL as EventLogService
+
+    Sim->>OG: generateNextOrder()
+    OG-->>Sim: SimEvent(AUFTRAG_EINGEGANGEN)
+    Sim->>DB: INSERT INTO auftrag
+    Sim->>EL: log(AUFTRAG_EINGEGANGEN)
+    Sim->>Sim: schedule(KOMMISSIONIERUNG_FERTIG, +5min)
+
+    Note over Sim: ... Zeit vergeht ...
+
+    Sim->>KS: starteKommissionierung(auftragId)
+    KS->>BS: verringern(artikelId, menge)
+    BS->>DB: UPDATE bestand
+    BS->>DB: INSERT INTO bewegung (WARENAUSGANG)
+    KS->>DB: UPDATE auftrag SET status='abgeschlossen'
+    Sim->>EL: log(KOMMISSIONIERUNG_FERTIG)
+        </pre>
+      </div>
+    </section>
+
+    <section id="domain">
+      <h2><span class="idx">05</span>Domain-Klassen (Datenmodell in Java)</h2>
+      <div class="mermaid-wrap">
+        <pre class="mermaid">
+classDiagram
+    class Artikel {
+        +int artikelId
+        +String bezeichnung
+        +String kategorie
+        +int minBestand
+        +int maxBestand
+        +BigDecimal ekPreis
+    }
+    class Lagerplatz {
+        +int platzId
+        +String zone
+        +int kapazitaet
+        +String status
+    }
+    class Bestand {
+        +int bestandId
+        +int artikelId
+        +int platzId
+        +int menge
+        +LocalDateTime letzteAenderung
+    }
+    class Bewegung {
+        +int bewegungId
+        +int artikelId
+        +String typ
+        +int menge
+        +Integer quellePlatzId
+        +Integer zielPlatzId
+        +LocalDateTime zeitstempel
+    }
+    class Auftrag {
+        +int auftragId
+        +String typ
+        +String status
+        +LocalDateTime erstelltAm
+        +LocalDateTime abgeschlossenAm
+        +List~AuftragPosition~ positionen
+    }
+    class AuftragPosition {
+        +int positionId
+        +int auftragId
+        +int artikelId
+        +int menge
+        +String status
+    }
+
+    Bestand --> Artikel
+    Bestand --> Lagerplatz
+    Bewegung --> Artikel
+    Auftrag --> AuftragPosition
+    AuftragPosition --> Artikel
+        </pre>
+      </div>
+    </section>
+
+    <section id="docker">
+      <h2><span class="idx">06</span>Docker-Compose-Grundgerüst (Säule 1 + 3 verbinden)</h2>
+      <div class="card">
+        <pre>version: "3.9"
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: lagersim
+      POSTGRES_USER: lager
+      POSTGRES_PASSWORD: changeme
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dashboard/grafana/provisioning:/etc/grafana/provisioning
+      - ./dashboard/grafana/dashboards-json:/var/lib/grafana/dashboards
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:</pre>
+      </div>
+    </section>
+
+    <section id="provisioning">
+      <h2><span class="idx">07</span>Grafana-Datasource-Provisioning (Beispiel)</h2>
+      <div class="card">
+        <p style="color:var(--muted);font-size:13.5px;margin-top:0;"><code>dashboard/grafana/provisioning/datasources/postgres.yml</code></p>
+        <pre>apiVersion: 1
+datasources:
+  - name: LagerDB
+    type: postgres
+    access: proxy
+    url: postgres:5432
+    database: lagersim
+    user: lager
+    secureJsonData:
+      password: changeme
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1600</pre>
+      </div>
+    </section>
+
+    <section id="pakete">
+      <h2><span class="idx">08</span>Paket-Verantwortlichkeiten (Java)</h2>
+      <div class="card">
+        <table>
+          <tr><th>Paket</th><th>Verantwortlichkeit</th></tr>
+          <tr><td><code>core</code></td><td>Event-Queue, Zeitsteuerung, Hauptschleife der Simulation</td></tr>
+          <tr><td><code>generator</code></td><td>Erzeugt zufällige, aber realistische Ereignisse</td></tr>
+          <tr><td><code>domain</code></td><td>Reine Datenklassen (entsprechen DB-Tabellen)</td></tr>
+          <tr><td><code>repository</code></td><td>Datenbankzugriff (JDBC/JPA) pro Tabelle</td></tr>
+          <tr><td><code>service</code></td><td>Geschäftslogik (Bestandsänderung, Kommissionierung, Logging)</td></tr>
+          <tr><td><code>config</code></td><td>Verbindungsdaten, Properties</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section id="reihenfolge">
+      <h2><span class="idx">09</span>Reihenfolge zum Aufbau der 3 Säulen</h2>
+      <div class="card">
+        <div class="phase-label">Säule 1 — Datenbank</div>
+        <ol class="steps">
+          <li><code>database/init/01_schema.sql</code> schreiben</li>
+          <li>Mit Docker starten</li>
+          <li>Mit DBeaver oder IntelliJ Database Tool prüfen</li>
+        </ol>
+        <div class="phase-label" style="margin-top:24px;">Säule 2 — Java</div>
+        <ol class="steps">
+          <li><code>domain</code> implementieren</li>
+          <li><code>repository</code> implementieren</li>
+          <li><code>service</code> implementieren</li>
+          <li><code>core</code> (Event-Queue + Clock) implementieren</li>
+          <li><code>generator</code> implementieren</li>
+          <li><code>Main.java</code> zum Starten schreiben</li>
+        </ol>
+        <div class="phase-label" style="margin-top:24px;">Säule 3 — Grafana</div>
+        <ol class="steps">
+          <li>Docker-Compose erweitern</li>
+          <li>Datasource provisionieren</li>
+          <li>Erste Panels manuell bauen</li>
+          <li>Als JSON exportieren nach <code>dashboards-json/</code></li>
+        </ol>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background: '#1a202c',
+      primaryColor: '#202737',
+      primaryBorderColor: '#3a4358',
+      primaryTextColor: '#e7eaf0',
+      lineColor: '#5b6478',
+      secondaryColor: '#202737',
+      tertiaryColor: '#1a202c',
+      fontFamily: 'Inter, sans-serif'
+    }
+  });
+</script>
+
+</body>
+</html>

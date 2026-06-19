@@ -1,0 +1,39 @@
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: lagersim-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: lagersim
+      POSTGRES_PASSWORD: lagersim_pw
+      POSTGRES_DB: lagersim
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lagersim -d lagersim"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # grafana:
+  #   image: grafana/grafana:11.0.0
+  #   container_name: lagersim-grafana
+  #   restart: unless-stopped
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   environment:
+  #     GF_SECURITY_ADMIN_USER: admin
+  #     GF_SECURITY_ADMIN_PASSWORD: admin
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - grafana-data:/var/lib/grafana
+
+volumes:
+  pgdata:
+  # grafana-data:
