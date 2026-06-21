@@ -1,0 +1,387 @@
+{
+  "apiVersion": "dashboard.grafana.app/v2",
+  "kind": "Dashboard",
+  "metadata": {
+    "name": "adhf8br",
+    "namespace": "default",
+    "uid": "5dd6e3dc-e890-4173-8f9d-e1f8253dc1b2",
+    "resourceVersion": "1782078586939984",
+    "generation": 1,
+    "creationTimestamp": "2026-06-21T21:49:46Z",
+    "labels": {
+      "grafana.app/deprecatedInternalID": "1661132344045568"
+    },
+    "annotations": {
+      "grafana.app/createdBy": "user:afpu8dnz4m1a8b",
+      "grafana.app/folder": "",
+      "grafana.app/saved-from-ui": "Grafana v13.0.2 (3fcdbc5a)"
+    }
+  },
+  "spec": {
+    "annotations": [
+      {
+        "kind": "AnnotationQuery",
+        "spec": {
+          "query": {
+            "kind": "DataQuery",
+            "group": "grafana",
+            "version": "v0",
+            "datasource": {
+              "name": "-- Grafana --"
+            },
+            "spec": {}
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "builtIn": true
+        }
+      }
+    ],
+    "cursorSync": "Off",
+    "description": "Test Dashboard for warehouse",
+    "editable": true,
+    "elements": {
+      "panel-1": {
+        "kind": "Panel",
+        "spec": {
+          "id": 1,
+          "title": "Lagerbestand",
+          "description": "Zeigt die Lagerbestand Historie",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "afpu8x5rq4cu8c"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "Datum",
+                            "text": "Datum",
+                            "timestampFormat": "2006-01-02",
+                            "type": "timestamp"
+                          },
+                          {
+                            "selector": "Lagerbestand",
+                            "text": "Lagerbestand",
+                            "type": "number"
+                          }
+                        ],
+                        "data": "Datum,Lagerbestand,Durchsatz_Stk_h,Fehlerquote_Prozent\n2026-01-01,5177,218.9,2.74\n2026-01-02,5152,244.1,3.13\n2026-01-03,5281,293.4,2.38\n2026-01-04,5146,329.1,2.28\n2026-01-05,5304,369.8,2.08\n2026-01-06,5433,385.7,2.37\n2026-01-07,5425,440.6,1.93\n2026-01-08,5356,195.6,1.4\n2026-01-09,5285,245.5,3.16\n2026-01-10,5187,285.6,2.17\n2026-01-11,5213,298.4,1.23\n2026-01-12,5298,320.7,1.58\n2026-01-13,5341,411.0,2.28\n2026-01-14,5512,418.1,1.06\n2026-01-15,5657,202.0,2.25\n2026-01-16,5623,246.3,0.0\n2026-01-17,5592,289.8,1.49\n2026-01-18,5674,310.6,1.5\n2026-01-19,5713,346.3,2.82\n2026-01-20,5599,392.9,1.73\n2026-01-21,5574,447.6,2.59\n2026-01-22,5751,196.0,1.54\n2026-01-23,5767,254.3,0.99\n2026-01-24,5734,291.8,0.86\n2026-01-25,5789,318.9,2.48\n2026-01-26,5929,369.3,1.57\n2026-01-27,6034,373.6,2.95\n2026-01-28,6118,445.1,2.3\n2026-01-29,6255,175.9,1.72\n2026-01-30,6324,252.1,1.58\n2026-01-31,6286,288.2,1.99\n2026-02-01,6388,323.9,2.12\n2026-02-02,6294,365.1,2.34\n2026-02-03,6360,387.8,1.61\n2026-02-04,6515,458.4,1.98\n2026-02-05,6648,201.5,1.92\n2026-02-06,6556,232.3,1.21\n2026-02-07,6542,281.6,1.37\n2026-02-08,6542,304.9,2.31\n2026-02-09,6526,385.0,1.79\n2026-02-10,6635,425.9,1.26\n2026-02-11,6637,449.7,1.3\n2026-02-12,6588,214.6,2.97\n2026-02-13,6714,272.5,1.54\n2026-02-14,6564,265.9,1.53\n2026-02-15,6471,347.8,1.38\n2026-02-16,6478,360.7,2.52\n2026-02-17,6618,406.0,1.9\n2026-02-18,6716,456.7,0.23\n2026-02-19,6838,200.8,1.63\n2026-02-20,6931,248.5,1.86\n2026-02-21,7051,290.9,1.47\n2026-02-22,7009,342.7,1.49\n2026-02-23,6961,356.5,1.31\n2026-02-24,7002,383.2,2.32\n2026-02-25,6913,440.1,2.25\n2026-02-26,6773,190.8,1.73\n2026-02-27,6735,263.5,2.05\n2026-02-28,6615,284.3,3.51\n2026-03-01,6634,330.0,2.22\n",
+                        "filters": [],
+                        "format": "timeseries",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "inline",
+                        "type": "csv",
+                        "url": "",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET"
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "timeseries",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "annotations": {
+                  "clustering": -1,
+                  "multiLane": false
+                },
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                }
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "barAlignment": 0,
+                    "barWidthFactor": 0.6,
+                    "drawStyle": "line",
+                    "fillOpacity": 0,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "insertNulls": false,
+                    "lineInterpolation": "linear",
+                    "lineWidth": 1,
+                    "pointSize": 5,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "showPoints": "auto",
+                    "showValues": false,
+                    "spanNulls": false,
+                    "stacking": {
+                      "group": "A",
+                      "mode": "none"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      },
+      "panel-2": {
+        "kind": "Panel",
+        "spec": {
+          "id": 2,
+          "title": "New panel",
+          "description": "",
+          "links": [],
+          "data": {
+            "kind": "QueryGroup",
+            "spec": {
+              "queries": [
+                {
+                  "kind": "PanelQuery",
+                  "spec": {
+                    "query": {
+                      "kind": "DataQuery",
+                      "group": "yesoreyeram-infinity-datasource",
+                      "version": "v0",
+                      "datasource": {
+                        "name": "afpu8x5rq4cu8c"
+                      },
+                      "spec": {
+                        "columns": [
+                          {
+                            "selector": "Datum ",
+                            "text": "Datum",
+                            "timestampFormat": "2006-01-02",
+                            "type": "timestamp"
+                          },
+                          {
+                            "selector": "Fehlerquote_Prozent",
+                            "text": "Fehlerquote_Prozent",
+                            "type": "number"
+                          }
+                        ],
+                        "data": "Datum,Lagerbestand,Durchsatz_Stk_h,Fehlerquote_Prozent\n2026-01-01,5177,218.9,2.74\n2026-01-02,5152,244.1,3.13\n2026-01-03,5281,293.4,2.38\n2026-01-04,5146,329.1,2.28\n2026-01-05,5304,369.8,2.08\n2026-01-06,5433,385.7,2.37\n2026-01-07,5425,440.6,1.93\n2026-01-08,5356,195.6,1.4\n2026-01-09,5285,245.5,3.16\n2026-01-10,5187,285.6,2.17\n2026-01-11,5213,298.4,1.23\n2026-01-12,5298,320.7,1.58\n2026-01-13,5341,411.0,2.28\n2026-01-14,5512,418.1,1.06\n2026-01-15,5657,202.0,2.25\n2026-01-16,5623,246.3,0.0\n2026-01-17,5592,289.8,1.49\n2026-01-18,5674,310.6,1.5\n2026-01-19,5713,346.3,2.82\n2026-01-20,5599,392.9,1.73\n2026-01-21,5574,447.6,2.59\n2026-01-22,5751,196.0,1.54\n2026-01-23,5767,254.3,0.99\n2026-01-24,5734,291.8,0.86\n2026-01-25,5789,318.9,2.48\n2026-01-26,5929,369.3,1.57\n2026-01-27,6034,373.6,2.95\n2026-01-28,6118,445.1,2.3\n2026-01-29,6255,175.9,1.72\n2026-01-30,6324,252.1,1.58\n2026-01-31,6286,288.2,1.99\n2026-02-01,6388,323.9,2.12\n2026-02-02,6294,365.1,2.34\n2026-02-03,6360,387.8,1.61\n2026-02-04,6515,458.4,1.98\n2026-02-05,6648,201.5,1.92\n2026-02-06,6556,232.3,1.21\n2026-02-07,6542,281.6,1.37\n2026-02-08,6542,304.9,2.31\n2026-02-09,6526,385.0,1.79\n2026-02-10,6635,425.9,1.26\n2026-02-11,6637,449.7,1.3\n2026-02-12,6588,214.6,2.97\n2026-02-13,6714,272.5,1.54\n2026-02-14,6564,265.9,1.53\n2026-02-15,6471,347.8,1.38\n2026-02-16,6478,360.7,2.52\n2026-02-17,6618,406.0,1.9\n2026-02-18,6716,456.7,0.23\n2026-02-19,6838,200.8,1.63\n2026-02-20,6931,248.5,1.86\n2026-02-21,7051,290.9,1.47\n2026-02-22,7009,342.7,1.49\n2026-02-23,6961,356.5,1.31\n2026-02-24,7002,383.2,2.32\n2026-02-25,6913,440.1,2.25\n2026-02-26,6773,190.8,1.73\n2026-02-27,6735,263.5,2.05\n2026-02-28,6615,284.3,3.51\n2026-03-01,6634,330.0,2.22\n",
+                        "filters": [],
+                        "format": "timeseries",
+                        "global_query_id": "",
+                        "parser": "backend",
+                        "root_selector": "",
+                        "source": "inline",
+                        "type": "csv",
+                        "url": "",
+                        "url_options": {
+                          "data": "",
+                          "method": "GET"
+                        }
+                      }
+                    },
+                    "refId": "A",
+                    "hidden": false
+                  }
+                }
+              ],
+              "transformations": [],
+              "queryOptions": {}
+            }
+          },
+          "vizConfig": {
+            "kind": "VizConfig",
+            "group": "barchart",
+            "version": "13.0.2",
+            "spec": {
+              "options": {
+                "barRadius": 0,
+                "barWidth": 0.97,
+                "fullHighlight": false,
+                "groupWidth": 0.7,
+                "legend": {
+                  "calcs": [],
+                  "displayMode": "list",
+                  "placement": "bottom",
+                  "showLegend": true
+                },
+                "orientation": "auto",
+                "showValue": "auto",
+                "stacking": "none",
+                "tooltip": {
+                  "hideZeros": false,
+                  "mode": "single",
+                  "sort": "none"
+                },
+                "xTickLabelRotation": -75,
+                "xTickLabelSpacing": 0
+              },
+              "fieldConfig": {
+                "defaults": {
+                  "thresholds": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "value": 0,
+                        "color": "green"
+                      },
+                      {
+                        "value": 80,
+                        "color": "red"
+                      }
+                    ]
+                  },
+                  "color": {
+                    "mode": "palette-classic"
+                  },
+                  "custom": {
+                    "axisBorderShow": false,
+                    "axisCenteredZero": false,
+                    "axisColorMode": "text",
+                    "axisLabel": "",
+                    "axisPlacement": "auto",
+                    "fillOpacity": 80,
+                    "gradientMode": "none",
+                    "hideFrom": {
+                      "legend": false,
+                      "tooltip": false,
+                      "viz": false
+                    },
+                    "lineWidth": 1,
+                    "scaleDistribution": {
+                      "type": "linear"
+                    },
+                    "thresholdsStyle": {
+                      "mode": "off"
+                    }
+                  }
+                },
+                "overrides": []
+              }
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "kind": "GridLayout",
+      "spec": {
+        "items": [
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 0,
+              "y": 0,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-1"
+              }
+            }
+          },
+          {
+            "kind": "GridLayoutItem",
+            "spec": {
+              "x": 12,
+              "y": 0,
+              "width": 12,
+              "height": 8,
+              "element": {
+                "kind": "ElementReference",
+                "name": "panel-2"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "links": [],
+    "liveNow": false,
+    "preload": false,
+    "tags": [],
+    "timeSettings": {
+      "timezone": "browser",
+      "from": "2026-01-01T00:00:00.000Z",
+      "to": "2026-03-01T00:00:00.000Z",
+      "autoRefresh": "",
+      "autoRefreshIntervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "hideTimepicker": false,
+      "fiscalYearStartMonth": 0
+    },
+    "title": "test_warehouse-dashboard  Copy",
+    "variables": [],
+    "preferences": {
+      "layout": {
+        "kind": "GridLayout",
+        "spec": {
+          "items": []
+        }
+      }
+    }
+  }
+}
