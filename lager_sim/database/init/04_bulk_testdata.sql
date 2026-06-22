@@ -3,6 +3,10 @@
 -- Erzeugt größere Mengen an Testdaten in einem Schritt (kein Echtzeit-Insert!).
 -- Die Zeitstempel werden so berechnet, als wären die Daten über einen
 -- bestimmten Zeitraum entstanden - das Skript selbst läuft aber sofort durch.
+--
+-- Hinweis v2: inhaltlich unverändert zu v1. quelle_platz_id/ziel_platz_id
+-- werden weiterhin zufällig aus lagerplatz gewählt - das funktioniert
+-- unverändert, es gibt jetzt einfach 60 statt 6 mögliche Plätze.
 -- =========================================================
 
 -- ---------------------------------------------------------
@@ -65,7 +69,7 @@ SELECT
     zeitstempel
 FROM pfad;
 
--- Endpunkt des Pfads exakt auf einen Lagerplatz "einrasten" lassen (Beispiel: platz_id 2)
+-- Endpunkt des Pfads exakt auf einen Lagerplatz "einrasten" lassen (platz_id 2 = "aA2")
 UPDATE roboter_position
 SET platz_id = 2
 WHERE roboter_id = 1
