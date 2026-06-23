@@ -112,9 +112,29 @@ INSERT INTO auftrag (typ, status, artikel_id, menge, menge_erfuellt, erstellt_am
     ('eingang', 'abgeschlossen',  3, 100, 100, now() - interval '8 days', now() - interval '7 days'),
     ('eingang', 'offen',          4, 50,  NULL, now() - interval '2 hours', NULL),
     ('ausgang', 'abgeschlossen',  5, 30,  30,  now() - interval '4 days', now() - interval '3 days'),
-    ('ausgang', 'storniert',      6, 20,  0,   now() - interval '5 days', now() - interval '4 days'),
+    ('ausgang', 'abgeschlossen',      6, 20,  0,   now() - interval '5 days', now() - interval '4 days'),
     ('eingang', 'in_bearbeitung', 8, 40,  NULL, now() - interval '6 hours', NULL),
-    ('ausgang', 'offen',          10, 25, NULL, now() - interval '1 hours', NULL);
+    ('ausgang', 'offen',          10, 25, NULL, now() - interval '1 hours', NULL),
+    ('eingang', 'offen', 2,  80, NULL, now() - interval '30 minutes', NULL),
+    ('ausgang', 'offen', 6,  15, NULL, now() - interval '45 minutes', NULL),
+    ('eingang', 'offen', 9,  60, NULL, now() - interval '1 hours',    NULL),
+    ('ausgang', 'offen', 1,  35, NULL, now() - interval '2 hours',    NULL),
+    ('eingang', 'offen', 5,  90, NULL, now() - interval '3 hours',    NULL),
+    ('ausgang', 'offen', 8,  12, NULL, now() - interval '20 minutes', NULL),
+    ('eingang', 'offen', 7,  45, NULL, now() - interval '4 hours',    NULL),
+    ('ausgang', 'offen', 3,  28, NULL, now() - interval '10 minutes', NULL),
+    ('eingang', 'abgeschlossen', 4,  70, 70, now() - interval '12 days', now() - interval '12 days' + interval '1 days'),
+    ('ausgang', 'abgeschlossen', 10, 18, 18, now() - interval '11 days', now() - interval '11 days' + interval '12 hours'),
+    ('eingang', 'abgeschlossen', 6,  55, 55, now() - interval '10 days', now() - interval '10 days' + interval '3 days'),
+    ('ausgang', 'abgeschlossen', 2,  40, 35, now() - interval '9 days',  now() - interval '9 days'  + interval '2 days'),
+    ('eingang', 'abgeschlossen', 1,  90, 90, now() - interval '8 days',  now() - interval '8 days'  + interval '4 days'),
+    ('ausgang', 'abgeschlossen', 9,  22, 22, now() - interval '8 days',  now() - interval '8 days'  + interval '1 days'),
+    ('eingang', 'abgeschlossen', 3,  65, 60, now() - interval '6 days',  now() - interval '6 days'  + interval '5 days'),
+    ('ausgang', 'abgeschlossen', 7,  14, 14, now() - interval '5 days',  now() - interval '5 days'  + interval '18 hours'),
+    ('eingang', 'abgeschlossen', 5,  35, 35, now() - interval '4 days',  now() - interval '4 days'  + interval '2 days'),
+    ('ausgang', 'abgeschlossen', 8,  19, 19, now() - interval '3 days',  now() - interval '3 days'  + interval '6 days'),
+    ('eingang', 'offen', 3, 55, NULL, now() - interval '15 minutes', NULL),
+    ('eingang', 'offen', 4, 22, NULL, now() - interval '25 minutes', NULL);
 -- ---------------------------------------------------------
 -- ROBOTER
 -- ---------------------------------------------------------

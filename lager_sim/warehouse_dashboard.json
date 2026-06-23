@@ -29,9 +29,22 @@
         "x": 0,
         "y": 0
       },
+      "id": 15,
+      "panels": [],
+      "title": "Übersicht",
+      "type": "row"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
       "id": 9,
       "panels": [],
-      "title": "Bestand",
+      "title": "Bestand & Bestand",
       "type": "row"
     },
     {
@@ -83,10 +96,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 22,
+        "h": 21,
         "w": 8,
         "x": 0,
-        "y": 1
+        "y": 2
       },
       "id": 1,
       "options": {
@@ -208,10 +221,10 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 16,
         "x": 8,
-        "y": 1
+        "y": 2
       },
       "id": 7,
       "options": {
@@ -236,7 +249,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    recorded_at,\r\n    total_stock\r\nFROM stock_history\r\nORDER BY recorded_at;",
+          "rawSql": "WITH zeitachse AS (\r\n    SELECT generate_series(\r\n        $__timeFrom()::timestamptz,\r\n        $__timeTo()::timestamptz,\r\n        '1 hour'::interval\r\n    ) AS bucket_zeit\r\n),\r\nartikel_liste AS (\r\n    SELECT artikel_id FROM artikel\r\n)\r\nSELECT\r\n    z.bucket_zeit AS time,\r\n    SUM(\r\n        (SELECT sh.total_stock\r\n         FROM stock_history sh\r\n         WHERE sh.artikel_id = a.artikel_id\r\n           AND sh.recorded_at <= z.bucket_zeit\r\n         ORDER BY sh.recorded_at DESC\r\n         LIMIT 1)\r\n    ) AS gesamtbestand\r\nFROM zeitachse z\r\nCROSS JOIN artikel_liste a\r\nGROUP BY z.bucket_zeit\r\nORDER BY z.bucket_zeit;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -277,12 +290,32 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "text",
                 "value": null
               },
               {
+                "color": "dark-red",
+                "value": 0
+              },
+              {
                 "color": "red",
-                "value": 80
+                "value": 25
+              },
+              {
+                "color": "light-green",
+                "value": 60
+              },
+              {
+                "color": "semi-dark-green",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              },
+              {
+                "color": "dark-red",
+                "value": 90
               }
             ]
           }
@@ -309,7 +342,8 @@
         },
         "showThresholdLabels": false,
         "showThresholdMarkers": true,
-        "sizing": "auto"
+        "sizing": "auto",
+        "text": {}
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -657,8 +691,301 @@
       },
       "id": 8,
       "panels": [],
-      "title": "Aufträge",
+      "title": "Aufträge & Effektivität",
       "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "dfpwlgotd11q8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "fillOpacity": 44,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 4,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 3,
+        "x": 0,
+        "y": 24
+      },
+      "id": 11,
+      "options": {
+        "barRadius": 0.05,
+        "barWidth": 0.73,
+        "fullHighlight": false,
+        "groupWidth": 0.7,
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": false
+        },
+        "orientation": "vertical",
+        "showValue": "never",
+        "stacking": "none",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        },
+        "xTickLabelRotation": 0,
+        "xTickLabelSpacing": 0
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "dfpwlgotd11q8a"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    typ AS auftragsart,\r\n    COUNT(*) AS anzahl\r\nFROM auftrag\r\nWHERE status NOT IN ('abgeschlossen', 'storniert')\r\nGROUP BY typ\r\nORDER BY typ;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Verhältniss Auträge",
+      "type": "barchart"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "dfpwlgotd11q8a"
+      },
+      "description": "Opimale (grün) bearbeitung innerhalb eines halben Tages\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 1.5,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.5
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 3,
+        "y": 24
+      },
+      "id": 14,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "dfpwlgotd11q8a"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    ROUND(AVG(EXTRACT(EPOCH FROM (abgeschlossen_am - erstellt_am))) / 86400, 1) AS durchschnitt_tage\r\nFROM auftrag\r\nWHERE status = 'abgeschlossen'\r\n  AND typ = 'ausgang';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "⌀ Auftragsdauer in d. (Ausgang)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "dfpwlgotd11q8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "max": 20,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 2,
+        "x": 8,
+        "y": 24
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "dfpwlgotd11q8a"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    typ AS auftragsart,\r\n    COUNT(*) AS anzahl\r\nFROM auftrag\r\nWHERE status NOT IN ('abgeschlossen', 'storniert')\r\nGROUP BY typ\r\nORDER BY typ;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Aktuelle Aufträge",
+      "type": "stat"
     },
     {
       "datasource": {
@@ -697,8 +1024,8 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 16,
-        "x": 0,
+        "w": 14,
+        "x": 10,
         "y": 24
       },
       "id": 2,
@@ -748,9 +1075,192 @@
       ],
       "title": "Aktuelle Aufträge",
       "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "dfpwlgotd11q8a"
+      },
+      "description": "Opimale (grün) bearbeitung innerhalb eines tages\n",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "max": 3,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 0
+              },
+              {
+                "color": "#EAB839",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 2
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 5,
+        "x": 3,
+        "y": 32
+      },
+      "id": 13,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "dfpwlgotd11q8a"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    ROUND(AVG(EXTRACT(EPOCH FROM (abgeschlossen_am - erstellt_am))) / 86400, 1) AS durchschnitt_tage\r\nFROM auftrag\r\nWHERE status = 'abgeschlossen';",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "⌀ Auftragsdauer in d. (Eingang)",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "dfpwlgotd11q8a"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 8,
+        "y": 32
+      },
+      "id": 10,
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "dfpwlgotd11q8a"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT\r\n    a.auftrag_id,\r\n    a.typ,\r\n    a.status,\r\n    a.artikel_id,\r\n    a.menge AS bestellt,\r\n    a.erstellt_am\r\nFROM auftrag a\r\nWHERE a.status = 'abgeschlossen'\r\nORDER BY a.erstellt_am;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          },
+          "table": "auftrag"
+        }
+      ],
+      "title": "Abgeschlossene Aufträge",
+      "type": "table"
     }
   ],
-  "refresh": "",
+  "refresh": "5s",
   "schemaVersion": 39,
   "tags": [],
   "templating": {
@@ -763,8 +1273,8 @@
   "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {},
   "timezone": "browser",
-  "title": "warehouse_dashboard",
+  "title": "warehouse_dashboard_test",
   "uid": "dfpwln5m6cqo0d",
-  "version": 7,
+  "version": 12,
   "weekStart": ""
 }
