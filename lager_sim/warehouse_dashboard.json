@@ -22,7 +22,7 @@
   "links": [],
   "panels": [
     {
-      "collapsed": true,
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -781,7 +781,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n    typ AS auftragsart,\r\n    COUNT(*) AS anzahl\r\nFROM auftrag\r\nWHERE status NOT IN ('abgeschlossen', 'storniert')\r\nGROUP BY typ\r\nORDER BY typ;",
+          "rawSql": "SELECT\r\n    typ AS auftragsart,\r\n    COUNT(*) AS anzahl\r\nFROM auftrag\r\nWHERE status NOT IN ('abgeschlossen', 'storniert', 'nicht_erfuelbar')\r\nGROUP BY typ\r\nORDER BY typ;",
           "refId": "A",
           "sql": {
             "columns": [
