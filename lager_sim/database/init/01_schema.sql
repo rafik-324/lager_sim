@@ -97,8 +97,8 @@ CREATE TABLE bewegung (
 CREATE TABLE auftrag (
                          auftrag_id      SERIAL PRIMARY KEY,
                          typ             VARCHAR(20) NOT NULL CHECK (typ IN ('eingang', 'ausgang')),
-                         status          VARCHAR(20) NOT NULL DEFAULT 'offen'
-                             CHECK (status IN ('offen', 'in_bearbeitung', 'abgeschlossen', 'storniert')),
+                         status      VARCHAR(20) NOT NULL DEFAULT 'offen'
+                             CHECK (status IN ('offen', 'in_bearbeitung', 'abgeschlossen', 'storniert', 'nicht_erfuellbar')),
                          artikel_id      INTEGER NOT NULL REFERENCES artikel(artikel_id),
                          menge           INTEGER NOT NULL CHECK (menge > 0),
                          menge_erfuellt  INTEGER CHECK (menge_erfuellt IS NULL OR menge_erfuellt BETWEEN 0 AND menge),

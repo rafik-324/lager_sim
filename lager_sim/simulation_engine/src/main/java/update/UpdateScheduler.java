@@ -19,10 +19,6 @@ public class UpdateScheduler {
     private static final int MIN_INTERVALL_SEKUNDEN = 2;
     private static final int MAX_INTERVALL_SEKUNDEN = 7;
 
-    // Steuert, ob der Scheduler im Normalbetrieb läuft oder ausschließlich
-    // Restock-, Destock- bzw. Abarbeitungs-Aufträge sendet. Volatile, da von
-    // außen (anderem Thread, z.B. der Konsoleneingabe) während des laufenden
-    // Schedulers umgeschaltet wird.
     private volatile boolean restockModus = false;
     private volatile boolean destockModus = false;
     private volatile boolean sorderModus = false;
@@ -53,7 +49,7 @@ public class UpdateScheduler {
             } else if (sorderModus) {
                 System.out.println("[Tick] Sorder-Modus: ältester offener Auftrag wird bearbeitet...");
                 lagerplatzRepository.bearbeiteAeltestenOffenenAuftrag();
-            } else if (random.nextInt(4) < 3) {
+            } else if (random.nextInt(2) < 1) {
                 System.out.println("[Tick] Neuer zufälliger Auftrag wird erstellt...");
                 auftragRepository.randOrder();
             } else {

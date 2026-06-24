@@ -44,6 +44,7 @@ public class LagerplatzRepository {
                         bearbeiteEingang(conn, auftragId, artikelId, menge);
                     } else {
                         bearbeiteAusgang(conn, auftragId, artikelId, menge);
+
                     }
                 }
 
@@ -64,8 +65,8 @@ public class LagerplatzRepository {
         Integer lagerplatzId = findeLagerplatzMitBestand(conn, artikelId, menge);
 
         if (lagerplatzId == null) {
-            System.out.println("Nicht genug Bestand für Auftrag " + auftragId + ".");
-            conn.rollback();
+            System.out.println("Nicht genug Bestand für Auftrag " + auftragId + " – markiere als nicht erfüllbar.");
+            markiereAlsNichtErfuellbar(conn, auftragId);
             return;
         }
 
@@ -80,8 +81,8 @@ public class LagerplatzRepository {
         Integer lagerplatzId = findeLagerplatzFuerEinlagerung(conn, artikelId, menge);
 
         if (lagerplatzId == null) {
-            System.out.println("Kein passender Lagerplatz für Auftrag " + auftragId + " gefunden (voll/gesperrt).");
-            conn.rollback();
+            System.out.println("Kein passender Lagerplatz für Auftrag " + auftragId + " – markiere als nicht erfüllbar.");
+            markiereAlsNichtErfuellbar(conn, auftragId);
             return;
         }
 
@@ -90,6 +91,14 @@ public class LagerplatzRepository {
         auftragRepository.finishOrderPrepConnection(conn, auftragId);
 
         System.out.println("Auftrag " + auftragId + " (Eingang) vollständig abgearbeitet.");
+    }
+
+    private void markiereAlsNichtErfuellbar(Connection conn, int auftragId) throws SQLException {
+        String sql = "UPDATE auftrag SET status = 'nicht_erfuellbar' WHERE auftrag_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, auftragId);
+            stmt.executeUpdate();
+        }
     }
 
     private Integer findeLagerplatzMitBestand(Connection conn, int artikelId, int benoetigteMenge) throws SQLException {

@@ -87,10 +87,6 @@ public class AuftragRepository {
         }
 
         String randStatus = "offen";
-        int randS = rand.nextInt(2);
-        if (randS == 1) {
-            randStatus = "abgeschlossen";
-        }
 
 
         int randAid = rand.nextInt(10) + 1;
@@ -110,10 +106,6 @@ public class AuftragRepository {
         String randType = "eingang";
 
         String randStatus = "offen";
-        int randS = rand.nextInt(2);
-        if (randS == 1) {
-            randStatus = "abgeschlossen";
-        }
 
         int randAid = rand.nextInt(10) + 1;
 
@@ -132,11 +124,6 @@ public class AuftragRepository {
         String randType = "ausgang";
 
         String randStatus = "offen";
-        int randS = rand.nextInt(2);
-        if (randS == 1){
-            randStatus = "abgeschlossen";
-        }
-
 
         int randAid = rand.nextInt(10) + 1;
 
