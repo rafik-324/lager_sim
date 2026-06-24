@@ -87,18 +87,60 @@ public class AuftragRepository {
         }
 
         String randStatus = "offen";
-        int randS = rand.nextInt(3);
-        if (randS == 0){
+        int randS = rand.nextInt(2);
+        if (randS == 1) {
             randStatus = "abgeschlossen";
-        }
-        else if (randS == 1){
-            randStatus = "in_bearbeitung";
         }
 
 
         int randAid = rand.nextInt(10) + 1;
 
-        int randMenge = rand.nextInt(100) + 1;
+        int randMenge = rand.nextInt(40,60) + 1;
+
+        newOrder(randId, randType, randStatus, randAid, randMenge);
+        System.out.println("Oder hinzugefügt " + findHoechsteAuftragId());
+
+    }
+
+    public void randRestock(){
+        Random rand = new Random();
+
+        int randId = findHoechsteAuftragId() + 1;
+
+        String randType = "eingang";
+
+        String randStatus = "offen";
+        int randS = rand.nextInt(2);
+        if (randS == 1) {
+            randStatus = "abgeschlossen";
+        }
+
+        int randAid = rand.nextInt(10) + 1;
+
+        int randMenge = rand.nextInt(40,60) + 1;
+
+        newOrder(randId, randType, randStatus, randAid, randMenge);
+        System.out.println("Oder hinzugefügt " + findHoechsteAuftragId());
+
+    }
+
+    public void randDestock(){
+        Random rand = new Random();
+
+        int randId = findHoechsteAuftragId() + 1;
+
+        String randType = "ausgang";
+
+        String randStatus = "offen";
+        int randS = rand.nextInt(2);
+        if (randS == 1){
+            randStatus = "abgeschlossen";
+        }
+
+
+        int randAid = rand.nextInt(10) + 1;
+
+        int randMenge = rand.nextInt(40,60) + 1;
 
         newOrder(randId, randType, randStatus, randAid, randMenge);
         System.out.println("Oder hinzugefügt " + findHoechsteAuftragId());

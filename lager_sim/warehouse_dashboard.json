@@ -1039,7 +1039,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "erstellt_am"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -1222,7 +1228,13 @@
           ],
           "show": false
         },
-        "showHeader": true
+        "showHeader": true,
+        "sortBy": [
+          {
+            "desc": true,
+            "displayName": "erstellt_am"
+          }
+        ]
       },
       "pluginVersion": "11.0.0",
       "targets": [
@@ -1267,7 +1279,7 @@
     "list": []
   },
   "time": {
-    "from": "now-30d",
+    "from": "now-2d",
     "to": "now"
   },
   "timeRangeUpdatedDuringEditOrView": false,
@@ -1275,6 +1287,6 @@
   "timezone": "browser",
   "title": "warehouse_dashboard_test",
   "uid": "dfpwln5m6cqo0d",
-  "version": 13,
+  "version": 14,
   "weekStart": ""
 }
