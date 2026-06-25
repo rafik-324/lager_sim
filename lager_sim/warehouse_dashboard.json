@@ -816,6 +816,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "max": 1.5,
@@ -1093,6 +1094,7 @@
           "color": {
             "mode": "thresholds"
           },
+          "decimals": 1,
           "fieldMinMax": false,
           "mappings": [],
           "max": 3,
@@ -1113,7 +1115,7 @@
                 "value": 1
               },
               {
-                "color": "red",
+                "color": "#F2495C",
                 "value": 2
               }
             ]
@@ -1480,6 +1482,6 @@
   "timezone": "browser",
   "title": "warehouse_dashboard_test",
   "uid": "dfpwln5m6cqo0d",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }

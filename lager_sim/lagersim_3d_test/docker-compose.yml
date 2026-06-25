@@ -1,0 +1,12 @@
+services:
+  lagersim-3d-test:
+    build: .
+    container_name: lagersim-3d-test
+    ports:
+      - "127.0.0.1:5173:5173"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    restart: unless-stopped

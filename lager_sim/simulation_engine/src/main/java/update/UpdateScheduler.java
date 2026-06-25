@@ -64,8 +64,6 @@ public class UpdateScheduler {
         }
     }
 
-    // --- Steuerung von außen während der Scheduler läuft ---
-
     public void aktiviereRestockModus() {
         restockModus = true;
         destockModus = false;

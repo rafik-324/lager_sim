@@ -3,7 +3,7 @@ package repositories;
 import java.sql.*;
 import java.time.Instant;
 import database.DatabaseConnection;
-import update.UpdateService;
+
 import java.util.Random;
 
 public class AuftragRepository {
@@ -158,7 +158,6 @@ public class AuftragRepository {
 
     public static void main(String[] args) {
         System.out.println("Working Directory: " + System.getProperty("user.dir"));
-        UpdateService service = new UpdateService();
         AuftragRepository newRep = new AuftragRepository();
         //newRep.newOrder(5, "ausgang", "offen", 3, 25);
         //newRep.finishOrder(4);
